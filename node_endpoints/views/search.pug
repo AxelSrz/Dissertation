@@ -1,0 +1,34 @@
+extends layout
+    
+block content
+  h1 #{title}
+
+  div.row
+    form(method='POST' action='/search')
+      div.col-lg-6
+        div.form-group
+          label(for='article_id') Article Id:
+          div.input-group
+            input#article_id.form-control(type='text' placeholder='26591ae6-5a87-4b5c-b5f9-e301b2a05523', name='article_id')
+            div.input-group-btn
+              button.btn.btn-default.dropdown-toggle(type='text' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="Title") Title
+              ul.dropdown-menu.dropdown-menu-right
+                each type in types
+                  li
+                    a(href="#") #{type}
+              input#search_type.hidden(value="Title" name="search_type")
+            
+        button.btn.btn-primary(type='submit') Search
+    
+  div.row
+    if typeof tracking_url != 'undefined'
+      a(href=""+tracking_url)  Link to article
+    if typeof list_tweets != 'undefined'
+      each embed_tweet in list_tweets
+        #{embed_tweet}
+    
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
